@@ -1,7 +1,8 @@
 // 1.data in json format
+var URL = "http://localhost:8080/"
 
 document.addEventListener("DOMContentLoaded", function () {
-  fetch("http://localhost:8080/")
+  fetch(URL)
     .then((response) => response.json())
     .then((data) => initMap(data["data"]));
 });
@@ -251,7 +252,7 @@ function displaydetails() {
 function addToDb(date, Name, route, marker_type, distance) {
   console.log(distanceLoc);
   distanceLoc.length = 0;
-  fetch("http://localhost:8080/", {
+  fetch(URL, {
     headers: {"Content-type": "application/json",
     },
     method: "POST",
