@@ -16,7 +16,7 @@ class DbService {
   async getData() {
     try {
       const response = await new Promise((resolve, reject) => {
-        const query = `SELECT * FROM billboardinfo WHERE Status = 1`;
+        const query = `SELECT * FROM ${process.env.TABLE_NAME1} WHERE Status = 1`;
         connection.query(query, (err, result) => {
           if (err) reject(new Error(err.message));
           resolve(result);
