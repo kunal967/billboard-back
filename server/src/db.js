@@ -1,11 +1,12 @@
 const mySql = require("mysql");
 let instance = null;
+require('dotenv').config()
 
 const connection = mySql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "hoardingloc",
+  host: (`${process.env.HOST}`),
+  user: (`${process.env.NAME}`),
+  password: (process.env.PASSWORD),
+  database:(`${process.env.DATABASE}`),
 });
 
 class DbService {
@@ -15,7 +16,7 @@ class DbService {
   async getData() {
     try {
       const response = await new Promise((resolve, reject) => {
-        const query = "SELECT * FROM billboardinfo WHERE Status = 1";
+        const query = `SELECT * FROM billboardinfo WHERE Status = 1`;
         connection.query(query, (err, result) => {
           if (err) reject(new Error(err.message));
           resolve(result);
@@ -30,7 +31,7 @@ class DbService {
     try {
       const InsertId = await new Promise((resolve, reject) => {
         const query =
-          "INSERT INTO markerdistancedata (Name,date,route,marker_type,distance) VALUES (?,?,?,?,?);";
+          "INSERT INTO "+process.env.TABLE_NAME2+" (Name,date,route,marker_type,distance) VALUES (?,?,?,?,?);";
         connection.query(
           query,
           [Name, date, route, marker_type, distance],
