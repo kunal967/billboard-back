@@ -3,7 +3,7 @@ let instance = null;
 require('dotenv').config()
 
 const connection = mySql.createConnection({
-  host: (`${process.env.HOST}`),
+  host: process.env.HOST,
   user: (`${process.env.NAME}`),
   password: (process.env.PASSWORD),
   database:(`${process.env.DATABASE}`),
@@ -19,6 +19,7 @@ class DbService {
         const query = `SELECT * FROM ${process.env.TABLE_NAME1} WHERE Status = 1`;
         connection.query(query, (err, result) => {
           if (err) reject(new Error(err.message));
+          console.log("database connected succesfully");
           resolve(result);
         });
       });
