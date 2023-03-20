@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
   entry: './src/index.js',
@@ -18,7 +19,14 @@ module.exports = {
       "http": false,
       fs: false,
       net:false,
-      tls:false
+      tls:false,
+      "os": false
     }
-  }
+  },
+  externals: {
+    express: 'express',
+  },
+  performance : {
+    hints : false
+}  
 };
