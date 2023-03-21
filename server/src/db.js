@@ -2,12 +2,16 @@ const mySql = require("mysql");
 let instance = null;
 require('dotenv').config()
 
-const connection = mySql.createConnection({
+const connection = mySql.createPool({
+  connectionLimit : 10,
   host: process.env.HOST,
-  user: (`${process.env.NAME}`),
+  user: `${process.env.NAME}`,
   password: "",
-  database:(`${process.env.DATABASE}`),
+  database: `${process.env.DATABASE}`,
+  connectTimeout: 60000,
+  acquireTimeout: 60000
 });
+
 
 class DbService {
   static getDbServiceInstance() {
@@ -17,6 +21,7 @@ class DbService {
     try {
       const response = await new Promise((resolve, reject) => {
         const query = `SELECT * FROM ${process.env.TABLE_NAME1} WHERE Status = 1`;
+        
         connection.query(query, (err, result) => {
           console.log("database connected succesfully");
           if (err) reject(new Error(err.message));
