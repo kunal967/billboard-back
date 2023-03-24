@@ -1,3 +1,4 @@
+
 const mySql = require("mysql");
 let instance = null;
 require("dotenv").config();
@@ -35,13 +36,13 @@ class DbService {
       pool.end();
     }
   }
-
+  
   async postData(Name, date, route, marker_type, distance) {
     try {
       const InsertId = await new Promise((resolve, reject) => {
         const query =
           "INSERT INTO markerdistancedata (Name,date,route,marker_type,distance) VALUES (?,?,?,?,?);";
-        connection.query(
+        pool.query(
           query,
           [Name, date, route, marker_type, distance],
           (err, result) => {
