@@ -1,0 +1,17 @@
+{
+    "sqltools.connections": [
+        {
+            "mysqlOptions": {
+                "authProtocol": "default"
+            },
+            "previewLimit": 50,
+            "server": "mysql.hostinger.in",
+            "port": 3306,
+            "driver": "MySQL",
+            "name": "mydb",
+            "database": "u833254268_rgegis",
+            "username": "u833254268_rgegis",
+            "askForPassword": true
+        }
+    ]
+}
