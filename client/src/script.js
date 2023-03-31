@@ -221,7 +221,7 @@ function initMap(data) {
 //Take data like Name,date,Trip Sequence, from user
 
 let entry = document.getElementById("add");
-add.addEventListener("click", displaydetails);
+entry.addEventListener("click", displaydetails);
 
 let stopButton = document
   .getElementById("stop")
