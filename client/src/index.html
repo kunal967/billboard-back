@@ -56,7 +56,7 @@
           </div>
         </td>
 
-        <td>
+        <!-- <td>
           <form id="inputs">
             <label>
               File No:
@@ -83,24 +83,45 @@
             />
             <input type="button" id="stop" value="Ending Point " border="1" />
             <br /><br />
-            
+
             <input type="button" id="add" value="Add" border="1" />
           </form>
-        </td>
+        </td> -->
         <td id="td">
+          <label>
+            Rate per Mtr :
+            <input type="number" name="rate" id="rate" required />
+            <button onclick="storeValue()">Set Rate</button>
+            <br /><br />
+
+          </label>
           <table class="DistBetPts" id="DistBetPts" border="1">
-            <thead>
-              <!-- <tr>
-                <th>Pts</th>
+            <thead id="tableHead">
+              <tr>
+                <th>Segments</th>
                 <th>Distance</th>
-              </tr> -->
+              </tr>
             </thead>
+            <tbody id="tableBody">
+              <td></td>
+              <td></td>
+            </tbody>
+            <tfoot id="tfooter">
+              <tr>
+              <td>Total(Mtr)</td>
+              <td id="totalvalue"></td>
+              </tr>
+              <tr>
+                <td>Amount</td>
+              <td id="amt"></td>
+              </tr>
+            </tfoot>
           </table>
         </td>
       </tr>
     </table>
     
-    <table class="contents" id="contents" border="1">
+    <!-- <table class="contents" id="contents" border="1">
       <thead>
         <tr>
           <th>Date</th>
@@ -114,7 +135,7 @@
     <br />
     <br />
     <br />
-    <br />
+    <br /> -->
 
     <script src="./script.js"></script>
     <script
