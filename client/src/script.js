@@ -1,5 +1,5 @@
 // 1.data in json format
-var URL = "http://localhost:8080/";
+var URL = "https://billboardbackend.onrender.com/";
 
 document.addEventListener("DOMContentLoaded", function () {
   fetch(URL)
