@@ -18,7 +18,7 @@ class DbService {
   async getData() {
     try {
       const response = await new Promise((resolve, reject) => {
-        const query = `SELECT * FROM billboardinfo WHERE Status = 1`;
+        const query = `SELECT * FROM reference_hoarding_deni`;
         
         connection.query(query, (err, result) => {
           console.log("database connected succesfully");
@@ -31,26 +31,27 @@ class DbService {
       console.log(err);
     }
   }
-  async postData(Name,date,route,marker_type,distance) {
+  async postData(Name, Date, Trip, MarkerType, Distance, TotalFare) {
     try {
-      const InsertId = await new Promise((resolve, reject) => {
+      const insertId = await new Promise((resolve, reject) => {
         const query =
-          "INSERT INTO markerdistancedata (Name,date,route,marker_type,distance) VALUES (?,?,?,?,?);";
+          "INSERT INTO markerdistancedata (Name, Date,Trip,MarkerType,Distance, TotalFare) VALUES (?,?,?,?,?,?);";
         connection.query(
           query,
-          [Name, date, route, marker_type, distance],
+          [Name, Date, Trip, MarkerType, Distance, TotalFare],
           (err, result) => {
             if (err) reject(new Error(err.message));
-            resolve(result.InsertId);
+            resolve(result.insertId);
         });
     });
     return{
-        id: InsertId,
+        id: insertId,
         Name: Name,
-        date : date,
-        route: route,
-        marker_type: marker_type,
-        distance: distance,
+        Date : Date,
+        Trip: Trip,
+        MarkerType: MarkerType,
+        Distance: Distance,
+        TotalFare:TotalFare,
     }
     } catch (error) {
       console.log(error.message);

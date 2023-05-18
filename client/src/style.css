@@ -1,64 +1,427 @@
-*
+/* * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+} */
 
-  html{
-    background-color:green;
-    background: radial-gradient(rgba(179,255,255,0.5));
+/* NMC heading */
+
+.headers {
+  margin-top: 15px;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.body-head-img {
+  height: 5em;
+  width: 5em;
+}
+/* map */
+
+/* Global styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Responsive styles for different screen sizes */
+@media screen and (max-width: 768px) {
+  .details-exterior {
+    display: flex;
+    flex-direction: column-reverse;
+    /* width: 970px; */
+    align-items: center;
   }
-#body
-{
-    background-color: aquamarine;
+  
+  .details-section {
+    order: 2;
+    margin: 0 20px;
+  }
+  
+  .table-section {
+    order: 1;
+  }
+  
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  p{
+    text-align: center;
+  }
+  
+  th, td {
+    padding: 8px;
+  }
+  
+  .marker-type-a, .marker-type-b, .marker-type-c {
+    margin-right: 5px;
+  }
+  .card {
+    margin: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    max-width: 600px;
+  }
+  
+  .details-card-body {
+    padding: 20px;
+    max-height: 470px;
+    /* overflow-y: scroll; */
+  }
+  .table-card-body {
+    padding: 20px;
+    max-height: 470px;
+    overflow-y: scroll;
+  }
 }
-#map {
-    align-items: right;
-  width: 100%;
-  height: 400px;
-  background: paleturquoise;
+
+/* Main styles */
+.details-exterior {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1200px;
 }
-#table
-{
-  height: 50px;
-  width: 90px;
-}
-.content
-{
-  border-collapse: collapse;
-  width: auto;
-  height: 50px;
-  margin: 25px;
-  text-align: left;
-  font-size: medium;
-  width: 800px;
-  border-width: thick;
-}
-.content thead tr
-{
-  font-weight: bold;
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
-  border-left: 2px solid black;
-  border-right: 2px solid black;
-}
-.content thead tr
-{ 
-  border-left: 2px solid black;
-  border-right:2px solid black ;
-}
-.content tbody tr
-{ 
-  border-bottom: 2px solid black;
-}
-.content tbody td
-{ 
-  border-left: 2px solid black;
-  border-right:2px solid black ;
-}
-#add
-{
-  width: 120px;
-  height: 30px;
+
+.details-section {
+  flex-basis: 60%;
   
 }
 
-#td{
-  display: flex
+.table-section {
+  flex-basis: 35%;
 }
+
+.card {
+  border: 1px solid #ddd;
+  margin-top: 20px;
+  /* padding: 20px; */
+}
+
+.data-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  margin-right: 5px;
+}
+
+.marker-type-a, .marker-type-b, .marker-type-c {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.marker-type-a {
+  background-color: blue;
+}
+
+.marker-type-b {
+  background-color: red;
+}
+
+.marker-type-c {
+  background-color: green;
+}
+
+.checkboxes {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.form-check {
+  margin-left: 5px;
+}
+
+.route, .total {
+  margin-top: 20px;
+}
+
+ #totalValueNew {
+  font-weight: bold;
+
+}
+#displayRoute{
+  font-weight: bold;
+  display: flex;
+  max-width: 300px;
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+thead {
+  background-color: #f2f2f2;
+}
+
+th {
+  text-align: left;
+  padding: 12px;
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+td {
+  padding: 12px;
+}
+
+.id, .date, .name, .route, .markerType, .distance, .fare {
+  white-space: nowrap;
+}
+
+/* Main styles */
+.containerr {
+  max-width: 100%;
+  height: max-content;
+  margin: 0 auto;
+}
+
+.rows {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  /* margin-right: -15px; */
+  /* margin-left: -15px; */
+  justify-content: flex-start;
+}
+/* Marker legend */
+#legend {
+  border: 1px solid #ccc;
+  position: absolute;
+  z-index: 1;
+  bottom: 56px;
+  padding: 10px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+  margin-left: 10px;
+}
+#legend h3 {
+  margin-top: 0;
+  font-size: 18px;
+}
+.markers-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.marker-type-a,
+.marker-type-b,
+.marker-type-c {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  /* margin-right: 10px; */
+  border: 1px solid #ccc;
+}
+.marker-type-a {
+  background-color: #ff0000;
+}
+.marker-type-b {
+  background-color: #00ff00;
+}
+.marker-type-c {
+  background-color: #0000ff;
+}
+.form-check {
+  position: relative;
+  display: contents;
+  padding-left: 0.25rem;
+  padding-right: 1rem;
+}
+.form-check label {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+/* Map container */
+#map {
+  height: 600px;
+  width: 100%;
+}
+
+/* Table styles */
+
+/* abc */
+
+/* Hide the checkbox input */
+input[type="checkbox"] {
+  display: none;
+}
+
+/* Style the card container */
+.card {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+}
+
+/* Show the card when the checkbox is checked */
+input[type="checkbox"]:checked ~ .card {
+  max-height: 1000px; /* Set a large max-height value */
+  transition: max-height 0.35s ease-in;
+}
+
+/* newwwww */
+
+.details-exterior{
+  display: flex;
+  justify-content: space-around;
+}
+
+.table-section,
+.details-section{
+  width: 75%;
+  margin-left: 10px;
+}
+
+
+
+.data-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 25px;
+}
+
+label {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+input[type="text"],
+input[type="date"] {
+  padding: 5px;
+  border: none;
+  border-bottom: 1px solid black;
+  outline: none; /* optional */
+  border-radius: 4px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.checkboxes {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
+.checkbox-wrapper {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.marker-type-a,
+.marker-type-b,
+.marker-type-c {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
+.marker-type-a {
+  background-color: #ef220b;
+}
+
+.marker-type-b {
+  background-color: #0cd109;
+}
+
+.marker-type-c {
+  background-color: #dff645;
+}
+
+.form-check label {
+  margin-left: 5px;
+}
+
+button {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+#displayRoute {
+  font-weight: bold;
+}
+
+.enterDetails {
+  margin-top: 20px;
+  margin-left: 20px;
+}
+
+.route,
+.total {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+
+/* table css  */
+.table-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+thead th {
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #ddd;
+  font-weight: bold;
+}
+
+th, td {
+  padding: 10px;
+  vertical-align: middle;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+tbody td:nth-child(6), tbody td:nth-child(7) {
+  text-align: right;
+}
+
+tbody td:nth-child(7) {
+  font-weight: bold;
+}
+

@@ -4,147 +4,272 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="src/style.css" />
-  </head>
-  <body>
-    <style></style>
+    <title>NMC - Hordings Survey</title>
+    <link rel="icon" href="nmc.jpg" type="image/icon type" />
 
-    <h3>MY GOOGLE MAPS DEMO</h3>
+    <link rel="stylesheet" href="./src/style.css" />
+    <link rel="stylesheet" href="scss/_transitions.scss" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body id="body">
+    <div class="body-head">
+      <div class="headers">
+        <img src="nmc.jpg" alt="" srcset="" class="body-head-img" />
+        <div class="head">
+          <h3>NAGPUR</h3>
+          <h5>MUNICIPAL</h5>
+          <h5>CORPORATION</h5>
+        </div>
+      </div>
+    </div>
+
+    <!-- costumer details -->
+    <div class="details-exterior">
+
+      <div class="details-section">
+        <p>
+          <label for="toggle-details" class="btn btn-primary enterDetails"
+          >Enter Details</label
+          >
+        </p>
+        <input type="checkbox" id="toggle-details" />
+        <div class="card">
+        <div class=".details-card-body">
+          <div class="data-wrapper">
+            <div>
+              <label for="name">Name: </label>
+              <input type="text" name="name" id="name" />
+            </div>
+            <div>
+              <label for="date">Date</label>
+              <input type="date" name="date" id="date" />
+            </div>
+            <div>
+              <label> Marker Type: </label>
+              <div class="checkboxes">
+                <div class="checkbox-wrapper">
+                  <span class="marker-type-a"></span>
+                  <div class="form-check">
+                    <input
+                    name="A"
+                    type="checkbox"
+                    id="show-marker-type-a"
+                      checked="checked"
+                      />
+                      <label for="show-marker-type-a">Type A Markers</label>
+                    </div>
+                  </div>
+                  <div class="checkbox-wrapper">
+                    <span class="marker-type-b"></span>
+                    <div class="form-check">
+                      <input
+                      name="B"
+                      type="checkbox"
+                      id="show-marker-type-b"
+                      checked="checked"
+                      />
+                      <label for="show-marker-type-b">Type B Markers</label>
+                    </div>
+                  </div>
+                  <div class="checkbox-wrapper">
+                    <span class="marker-type-c"></span>
+                    <div class="form-check">
+                      <input
+                      name="C"
+                      type="checkbox"
+                      id="show-marker-type-c"
+                      checked="checked"
+                      />
+                      <label for="show-marker-type-c">Type C Markers</label>
+                    </div>
+                  </div>
+                </div>
+              
+              </div>
+              <div class="route">Current Route : <span id="displayRoute"></span></div>
+              <div id="total">Total : <span id="totalValueNew">0</span> KM</div>
+              <div>
+                <button id="recordAdd">Add Record</button> 
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="table-section">
+        <p>
+          <label for="toggle-table" class="btn btn-primary enterDetails"
+            >Show/Hide All Records</label
+          >
+        </p>
+        <input type="checkbox" id="toggle-table" />
+        <div class="card">
+          <div class="table-card-body">
+            <table id="">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Date</th>
+                  <th>Name</th>
+                  <th>Trip</th>
+                  <th>Marker Type</th>
+                  <th>Distance (KM)</th>
+                  <th>Revenue</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="id">1</td>
+                  <td class="date">2022-05-01</td>
+                  <td class="name">John Smith</td>
+                  <td class="route">San Francisco to Los Angeles</td>
+                  <td class="markerType">Start</td>
+                  <td class="distance">0</td>
+                  <td class="fare">$0.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        
+       
+      </div>
+    </div>
+    <!--map and legend -->
+
+    <div class="containerr">
+      <div class="rows">
+        
+        <div class="" id="map"></div>
+      </div>
+    </div>
+    <!-- table -->
+
+    <!-- <table border="2">
+            <tr>
+              <td id="td">
+                <label>
+                  Rate per Unit:
+                  <input
+                    type="number"
+                    name="rate"
+                    id="rate"
+                    required
+                  />
+                  <br />
+                  <br />
+                  <button class="btn btn-outline-primary" onclick="storeValue()">Set Rate</button>
+                  <button class="btn btn-outline-danger" onclick="window.location.href=window.location.href">Reset</button>
+                  <br />
+                  <br />
+                </label>
+
+                <table class="DistBetPts, table" id="DistBetPts" border="1">
+                  <thead id="tableHead">
+                    <tr>
+                      <th>Segments</th>
+                      <th>Distance</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tableBody">
+                    <td></td>
+                    <td></td>
+                  </tbody>
+                  <tfoot id="tfooter">
+                    <tr>
+                      <td>Total</td>
+                      <td id="totalvalue"></td>
+                    </tr>
+                    <tr>
+                      <td>Amount</td>
+                      <td id="amt"></td>
+                    </tr>
+                  </tfoot>
+                </table>
+              </td>
+            </tr>
+          </table> -->
     <!--The div element for the map-->
 
-    <div id="map"></div>
+    <!-- checkboxes -->
 
-    <table class="contents1" id="contents1" border="1">
-      <tr>
-        <td>
-          <!-- checkboxes -->
-          <div id="legend">
-            <h3>Marker Legend</h3>
-            <div>
-              <span class="marker-type-a"></span>
-              <label>Type A</label>
-              <div>
-                <input
-                  type="checkbox"
-                  id="show-marker-type-a"
-                  checked="checked"
-                />
-                <label for="show-marker-type-a">Show/Hide Type A Markers</label>
-              </div>
-            </div>
-            <div>
-              <span class="marker-type-b"></span>
-              <label>Type B</label>
-            </div>
-            <div>
-              <input
-                type="checkbox"
-                id="show-marker-type-b"
-                checked="checked"
-              />
-              <label for="show-marker-type-b">Show/Hide Type B Markers</label>
-            </div>
-            <div>
-              <div>
-                <span class="marker-type-c"></span>
-                <label>Type C</label>
-              </div>
-            </div>
-            <input type="checkbox" id="show-marker-type-c" checked="checked" />
-            <label for="show-marker-type-c">Show/Hide Type C Markers</label>
-          </div>
-        </td>
-
-        <!-- <td>
-          <form id="inputs">
-            <label>
-              File No:
-              <input type="text" name="name" id="name" required /><br /><br />
-            </label>
-            <label>
-              Date:
-              <input type="date" name="date" id="date" required /><br /><br />
-            </label>
-            <label>
-              Marker Type:
-              <select id="marker_type" required>
-                <option value="default">--select a Marker type--</option>
-                <option value="Type-A">Type-A</option>
-                <option value="Type-B">Type-B</option>
-                <option value="Type-C">Type-C</option></select
-              ><br /><br />
-            </label>
-            <input
-              type="button"
-              id="start"
-              value="Starting Point "
-              border="1"
-            />
-            <input type="button" id="stop" value="Ending Point " border="1" />
-            <br /><br />
-
-            <input type="button" id="add" value="Add" border="1" />
-          </form>
-        </td> -->
-        <td id="td">
+    <!-- <div class="InputDetails">
+      <div class="inputs">
+        <form id="inputs">
           <label>
-            Rate per Mtr :
-            <input type="number" name="rate" id="rate" required />
-            <button onclick="storeValue()">Set Rate</button>
-            <br /><br />
-
+            File No:
+            <input
+              type="text"
+              name="name"
+              id="name"
+              required
+              max-width="10px"
+            /><br />
           </label>
-          <table class="DistBetPts" id="DistBetPts" border="1">
-            <thead id="tableHead">
-              <tr>
-                <th>Segments</th>
-                <th>Distance</th>
-              </tr>
-            </thead>
-            <tbody id="tableBody">
-              <td></td>
-              <td></td>
-            </tbody>
-            <tfoot id="tfooter">
-              <tr>
-              <td>Total(Mtr)</td>
-              <td id="totalvalue"></td>
-              </tr>
-              <tr>
-                <td>Amount</td>
-              <td id="amt"></td>
-              </tr>
-            </tfoot>
-          </table>
-        </td>
-      </tr>
-    </table>
-    
-    <!-- <table class="contents" id="contents" border="1">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>File No</th>
-          <th>Marker Sequence</th>
-          <th>Marker Type</th>
-          <th>Total Distance in Mtr</th>
-        </tr>
-      </thead>
-    </table>
-    <br />
-    <br />
-    <br />
-    <br /> -->
+          <label>
+            Date:
+            <input type="date" name="date" id="date" required /><br />
+          </label>
+          <label>
+            Marker Type:
+            <select id="marker_type" required>
+              <option value="default">--select a Marker type--</option>
+              <option value="Type-A">Type-A</option>
+              <option value="Type-B">Type-B</option>
+              <option value="Type-C">Type-C</option></select
+            ><br />
+          </label>
+          <input type="button" id="start" value="Starting Point " border="1" />
+          <input type="button" id="stop" value="Ending Point " border="1" />
+          <br />
+          <input type="button" id="add" value="Add" border="1" />
+        </form>
+      </div>
+      <div class="table2">
+        <table class="contents" id="contents" border="1">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>File No</th>
+              <th>Marker Sequence</th>
+              <th>Marker Type</th>
+              <th>Total Distance in Mtr</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div> -->
 
-    <script src="src/script.js"></script>
+   
+
+    <script src="./src/script.js"></script>
     <script
       asyync
       defer
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAqOHKR8535QEk3fKeA2_zqP_zz7tp0tcU&callback=initMap"
     ></script>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>
 <!-- // API Key -->
 <!-- AIzaSyAwNGP1MqHlEzQxoGQHEQ4KkQUh6VfhxZMF -->
-<!-- let Buldi = {  {ParseDMS(num.longi)}, {ParseDMS(num.lati)} }; -->
+<!-- let Buldi = {  {ParseDMS(num.longi)}, {ParseDMS(num.lati)} };-->

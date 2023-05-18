@@ -7,14 +7,66 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((data) => initMap(data["data"]));
 });
 
+//*       DATABASE CODE       *//
+var onRecordAdd = document.getElementById("recordAdd");
+onRecordAdd.addEventListener("click", displaydetails, emptyFeilds);
+
+function emptyFeilds(){
+  
+}
+
+function displaydetails() {
+  // Get all the checkbox inputs
+  const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+let allCheckbox = ""; // Declare the variable outside the loop
+
+// Iterate over the checkboxes and concatenate the labels of checked checkboxes
+checkboxes.forEach((checkbox) => {
+  if (checkbox.checked) {
+    const label = checkbox.name;
+    allCheckbox += label + " "; // Concatenate the labels with a space
+  }
+});
+
+  var name = document.getElementById('name').value
+  var date = document.getElementById('date').value
+  var displayRoute = document.getElementById('displayRoute').innerText
+  var distanceValue = document.getElementById('totalValueNew').innerText
+  var totalDistance = 5 * document.getElementById('totalValueNew').innerText
+  
+  addToDb(name, date, displayRoute,allCheckbox, distanceValue,totalDistance)
+}
+function addToDb(Name, Date, Trip, MarkerType, Distance, TotalFare) {
+  distanceLoc.length = 0;
+  fetch(URL, {
+    headers: { "Content-type": "application/json" },
+    method: "POST",
+    body: JSON.stringify({
+      Name: Name,
+      Date: Date,
+      Trip: Trip,
+      MarkerType: MarkerType,
+      Distance: Distance,
+      TotalFare : TotalFare
+    }),
+  }).then((response) => response.json());
+  // .then((data) => insertRowtoTable(data["data"]));
+}
+
 //.....................+++++++................................
+
+//check boxes to find markerType
 
 // converting dms into degrees
 
 function ParseDMS(input) {
-  var parts = input.split(/[^\d\w.]+/);
-  var dege = ConvertDMSToDD(parts[0], parts[1], parts[2], parts[3]);
-  return dege;
+  if (input !== null) {
+    var parts = input.split(/[^\d\w.]+/);
+    var dege = ConvertDMSToDD(parts[0], parts[1], parts[2], parts[3]);
+    return dege;
+  } else {
+    return;
+  }
 }
 function ConvertDMSToDD(degrees, minutes, seconds, direction) {
   var deg = Number(degrees);
@@ -55,7 +107,7 @@ B.addEventListener("change", () => removeMarkersOfType("B", B.checked));
 let C = document.getElementById("show-marker-type-c");
 C.addEventListener("change", () => removeMarkersOfType("C", C.checked));
 
-// Displaying markers according to legends
+//TODO Displaying markers according to legends
 
 function setMapOnMarkerType(markerType, map) {
   markers.forEach((element) => {
@@ -72,32 +124,35 @@ function removeMarkersOfType(markerType, isChecked) {
   }
 }
 
-// main function
+//TODO main function
 
 function initMap(data) {
+  // console.log(data);
   // displaying map
   map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 18,
-    center: { lng: 78.04666667, lat: 22.11838889 },
+    zoom: 14,
+    center: { lng: 79.06697222, lat: 21.09784722 },
   });
   if (data) {
     Object.values(data).map((loc) => {
-      var longitude = ParseDMS(loc.Longitude);
-      var latitude = ParseDMS(loc.Latitude);
-      var MarkerType = loc.Marker_Type;
-      var id = loc.Marker_ID;
+      var longitude = ParseDMS(loc.survey_long_degree);
+      var latitude = ParseDMS(loc.survey_lat_degree);
+      var MarkerType = loc.markerType;
+      var id = loc.hid;
       // adding markers on the map
       addMarker(latitude, longitude, MarkerType, id);
     });
   }
-  // add marker function
+
+  //TODO add marker function
   function addMarker(latitude, longitude, MarkerType, id) {
     let marker = new google.maps.Marker({
       position: { lng: longitude, lat: latitude },
       label: MarkerType,
       id: id,
       map: map,
-      title: "ID = " + id + "  " + MarkerType + "  zone 1",
+      //title: "ID = " + id + "  " + MarkerType + "  zone 1",
+      title: `ID = ${MarkerType}${id}\nZone1\n\nDimensions:\nWidth = xxxx Mtr.\nLength = xxxx Mtr.\nHeight = xxxx Mtr.\n\nCategory\nxxxxxxxxxxxx`,
       icon: {
         path: google.maps.SymbolPath.Marker,
         url: MarkerType == "A" ? red : MarkerType == "B" ? green : yellow,
@@ -113,20 +168,10 @@ function initMap(data) {
     // listning to the click event on the map
     google.maps.event.addListener(marker, "click", listenClick(marker));
   }
-  //start listning to to pointer clicks after clicking start button
-  // var addButton = document
-  //   .getElementById("start")
-  //   .addEventListener("click", emptyClicks);
-  function emptyClicks(marker) {
-    var length = selectedMarkers.length;
-    for (let i = 0; i < length; i++) {
-      selectedMarkers.pop();
-    }
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    listenClick(marker);
-  }
 
-  var totalDistanceArr = [];   // this is to store the values of table or dist betn selected markers.
+  //TODO   listens for clicks on map for markers
+
+  var totalDistanceArr = []; // this is to store the values of table or dist betn selected markers.
   function listenClick(marker) {
     return function (evt) {
       var selpts = "";
@@ -139,26 +184,43 @@ function initMap(data) {
         label: marker.label,
         id: marker.id,
       };
+      var displayRoute = document.getElementById("displayRoute");
+
       if (index === -1) {
         marker.setIcon(pin);
         selectedMarkers.push(loca);
+
+        displayRoute.innerHTML = selectedMarkers
+          .map((marker) => `${marker.id}${marker.label}`)
+          .join(" => ");
+
         showpolyline();
         for (let i = 0; i < selectedMarkers.length - 1; i++) {
           for (let j = i + 1; j < selectedMarkers.length; j++) {
-            selpts = selectedMarkers[i].id + "+" + selectedMarkers[j].id;
-            dist = 100000 * calculateDistance(selectedMarkers[i], selectedMarkers[j]);
+            selpts =
+              selectedMarkers[i].markerType +
+              selectedMarkers[i].id +
+              "+" +
+              selectedMarkers[j].markerType +
+              selectedMarkers[j].id;
+            dist =
+              100 * calculateDistance(selectedMarkers[i], selectedMarkers[j]);
           }
         }
         totalDistanceArr.push(dist);
         for (let i = 0; i < totalDistanceArr.length; i++) {
           totalDistance += totalDistanceArr[i];
         }
-        document.getElementById("totalvalue").innerHTML = 100000*calculateTotalDistance();
-        cost =100000*calculateTotalDistance()*rate;
-        amt.innerHTML = cost;
-        insertRowinT2(selpts, dist);
-      }
-      else {
+        console.log(totalDistanceArr);
+        if (totalDistanceArr.length > 0) {
+          distance = 100 * calculateTotalDistance();
+          distanceFixed = distance.toFixed(2);
+
+          document.getElementById("totalValueNew").innerHTML = distanceFixed;
+
+          // insertRowinT2(selpts, dist);
+        } //
+      } else {
         var result = confirm("Are you sure you want to delete this item?");
 
         if (result) {
@@ -171,19 +233,26 @@ function initMap(data) {
             strokeWeight: 10,
             scale: 30,
           });
-
           selectedMarkers.splice(index, 1);
           totalDistanceArr.splice(index, 1);
-          updateTable(selectedMarkers, totalDistanceArr);
+
+          displayRoute.innerHTML = selectedMarkers
+            .map((marker) => `${marker.id}${marker.label}`)
+            .join(" => ");
+          if (totalDistanceArr > 1) {
+            document.getElementById("totalValueNew").innerHTML =
+              100 * calculateTotalDistance();
+            // insertRowinT2(selpts, dist);
+          }
           showpolyline();
         } else {
-          // user clicked Cancel doÂ nothing
+          // user clicked Cancel do nothing
         }
       }
     };
   }
 
-  //Polyline
+  //TODO  Polyline
 
   let flightPath = null;
 
@@ -218,59 +287,7 @@ function initMap(data) {
   }
 }
 
-//Take data like Name,date,Trip Sequence, from user
-
-let entry = document.getElementById("add");
-entry.addEventListener("click", displaydetails);
-
-let stopButton = document
-  .getElementById("stop")
-  .addEventListener("click", showRoute);
-
-function displaydetails() {
-  var date = document.getElementById("date").value;
-  var Name = document.getElementById("name").value;
-  var marker_type = document.getElementById("marker_type").value;
-  if (!Name || !date || !marker_type) {
-    console.log("Enter All Details.");
-    return;
-  }
-
-  var distance = 100000 * calculateTotalDistance() + " Mtrs";
-  var route = showRoute();
-
-  addToDb(date, Name, route, marker_type, distance);
-  insertRowtoTable(date, Name, route, marker_type, distance);
-}
-
-//*       DATABASE CODE       *//
-
-function addToDb(date, Name, route, marker_type, distance) {
-  distanceLoc.length = 0;
-  fetch(URL, {
-    headers: { "Content-type": "application/json" },
-    method: "POST",
-    body: JSON.stringify({
-      Name: Name,
-      date: date,
-      route: route,
-      marker_type: marker_type,
-      distance: distance,
-    }),
-  }).then((response) => response.json());
-  // .then((data) => insertRowtoTable(data["data"]));
-}
-//* Creating route for the pointers clicked
-
-function showRoute() {
-  var length = selectedMarkers.length;
-  var route = "";
-  for (let i = 0; i < length; i++) {
-    var route = route + selectedMarkers[i].id + "-";
-  }
-  return route;
-}
-// calculating distance
+//* calculating distance
 
 function calculateDistance(source, destination) {
   var x1 = source.lng;
@@ -291,7 +308,7 @@ function getDistance(x1, y1, x2, y2) {
 
 function calculateTotalDistance() {
   var length = selectedMarkers.length;
-  let total = Number(0);
+  let total = 0;
   if (length > 2) {
     for (let i = 0; i < length - 1; i++) {
       total =
@@ -303,163 +320,6 @@ function calculateTotalDistance() {
     return total.toFixed(4);
   } else {
     // alert("Select more markers");
+    return 0;
   }
 }
-
-// Empty The input fiels after taking the inputs.
-function emptyFeilds() {
-  const formData = document.getElementById("inputs");
-  const defaultOpt = document.getElementById("default");
-  formData.elements.name.value = "";
-  const timestamp = Date.now();
-  formData.elements.date.value = new Date(timestamp);
-  formData.elements.marker_type.value = defaultOpt;
-}
-   var total=0;
-   function insertRowinT2(selpts, dist) {
-    row = 0;
-    
-    var body = document.getElementById("tableBody");
-    var cost = document.getElementById("amt");
-    var totalValue = document.getElementById("totalvalue");
-    var newRow = body.insertRow();
-    var cell1 = newRow.insertCell(0);
-    var cell2 = newRow.insertCell(1);
-    
-    row++;
-    cell1.innerHTML = selpts;
-    cell2.innerHTML = dist;
-  }
-  
-  var totalDistanceArr = [];
-
-  function listenClick(marker) {
-    return function (evt) {
-      var selpts = "";
-      var dist = 0;
-      var totalDistance = 0;
-      var index = selectedMarkers.findIndex((m) => m.id === marker.id);
-      var loca = {
-        lng: marker.getPosition().lng(),
-        lat: marker.getPosition().lat(),
-        label: marker.label,
-        id: marker.id,
-      };
-      if (index === -1) {
-        marker.setIcon(pin);
-        selectedMarkers.push(loca);
-        showpolyline();
-
-        for (let i = 0; i < selectedMarkers.length - 1; i++) {
-          for (let j = i + 1; j < selectedMarkers.length; j++) {
-            selpts = selectedMarkers[i].id + "+" + selectedMarkers[j].id;
-            dist =
-              1000 * calculateDistance(selectedMarkers[i], selectedMarkers[j]);
-          }
-        }
-        totalDistanceArr.push(dist);
-        for (let i = 0; i < totalDistanceArr.length; i++) {
-          totalDistance += totalDistanceArr[i];
-        }
-        document.getElementById("totalvalue").innerHTML =
-          calculateTotalDistance();
-        insertRowinT2(selpts, dist);
-      } else {
-        var result = confirm("Are you sure you want to delete this item?");
-
-        if (result) {
-          // user clicked OK  // delete the item
-          marker.setIcon({
-            path: google.maps.SymbolPath.Marker,
-            url: loca.label == "A" ? red : loca.label == "B" ? green : yellow,
-            fillOpacity: 1,
-            strokeColor: "white",
-            strokeWeight: 10,
-            scale: 30,
-          });
-
-          selectedMarkers.splice(index, 1);
-          totalDistanceArr.splice(index, 1);
-          updateTable(selectedMarkers, totalDistanceArr);
-          showpolyline();
-        } else {
-          // user clicked Cancel do nothing
-        }
-      }
-    };
-  }
-
-  var total = 0;
-
-  function insertRowinT2(selpts, dist) {
-    var DistBetPts = document.getElementById("DistBetPts");
-    var body = document.getElementById("tableBody");
-    var totalValue = document.getElementById("totalvalue");
-
-    var newRow = body.insertRow();
-    var cell1 = newRow.insertCell(0);
-    var cell2 = newRow.insertCell(1);
-
-    cell1.innerHTML = selpts;
-    cell2.innerHTML = dist;
-  }
-
-  function updateTable(selectedMarkers) {
-    var table = document.getElementById("tableBody");
-    var totalValue = document.getElementById("totalvalue");
-    var cost=0;
-    table.innerHTML = "";
-    totalDistanceArr = [];
-    var total =0;
-    // Add rows in pairs
-    for (let i = 0; i < selectedMarkers.length - 1; i++) {
-      var marker1 = selectedMarkers[i];
-      var marker2 = selectedMarkers[i + 1];
-      if (marker1 && marker2) {
-        selpts = marker1.id + "+" + marker2.id;
-        dist = Number(100000 * calculateDistance(marker1, marker2));
-
-        if (
-          selectedMarkers.indexOf(marker1) !== -1 &&
-          selectedMarkers.indexOf(marker2) !== -1
-        ) {
-          // Create a new row
-          var row = table.insertRow();
-          var cell1 = row.insertCell();
-          var cell2 = row.insertCell();
-          cell1.innerHTML = selpts;
-          cell2.innerHTML = dist;
-          total += dist;
-        }
-      }
-    }
-    totalValue.innerHTML = total;
-    cost = rate*total;
-    amt.innerHTML=cost;
-  }
-
-  var rate;
-  function storeValue() {
-    rate = parseFloat(document.getElementById("rate").value);
-    // or do whatever you want with the value
-  }
-
-  // Insert the input details unto table
-  function insertRowtoTable(date, Name, route, marker_type, distance) {
-    row = 1;
-    var contents = document.getElementById("contents");
-    var newRow = contents.insertRow(row);
-    var cell1 = newRow.insertCell(0);
-    var cell2 = newRow.insertCell(1);
-    var cell3 = newRow.insertCell(2);
-    var cell4 = newRow.insertCell(3);
-    var cell5 = newRow.insertCell(4);
-  
-    cell1.innerHTML = date;
-    cell2.innerHTML = Name;
-    cell3.innerHTML = route;
-    cell4.innerHTML = marker_type;
-    cell5.innerHTML = distance;
-    row++;
-    emptyFeilds();
-  }
