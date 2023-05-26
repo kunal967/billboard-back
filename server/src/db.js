@@ -31,14 +31,30 @@ class DbService {
       console.log(err);
     }
   }
-  async postData(Name, Date, Trip, MarkerType, Distance, TotalFare) {
+  async getTableData() {
+    try {
+      const response = await new Promise((resolve, reject) => {
+        const query = `SELECT * FROM markerdistancedata ORDER BY markerdistancedata.dateString DESC`;
+        
+        connection.query(query, (err, result) => {
+          console.log("database second connected succesfully");
+          if (err) reject(new Error(err.message));
+          resolve(result);
+        });
+      });
+      return response;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  async postData(Name, dateString, Trip, MarkerType, Distance, TotalFare) {
     try {
       const insertId = await new Promise((resolve, reject) => {
         const query =
-          "INSERT INTO markerdistancedata (Name, Date,Trip,MarkerType,Distance, TotalFare) VALUES (?,?,?,?,?,?);";
+          "INSERT INTO markerdistancedata (Name, dateString,Trip,MarkerType,Distance, TotalFare) VALUES (?,?,?,?,?,?);";
         connection.query(
           query,
-          [Name, Date, Trip, MarkerType, Distance, TotalFare],
+          [Name, dateString, Trip, MarkerType, Distance, TotalFare],
           (err, result) => {
             if (err) reject(new Error(err.message));
             resolve(result.insertId);
@@ -47,7 +63,7 @@ class DbService {
     return{
         id: insertId,
         Name: Name,
-        Date : Date,
+        dateString : dateString,
         Trip: Trip,
         MarkerType: MarkerType,
         Distance: Distance,
