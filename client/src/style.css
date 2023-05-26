@@ -65,7 +65,7 @@
     background-color: #f0f0f0;
     border: 1px solid #ddd;
     border-radius: 4px;
-    overflow: hidden;
+    overflow: auto;
     max-width: 600px;
   }
   
@@ -94,8 +94,13 @@
   
 }
 
+/* p{
+  text-align: center;
+} */
+
 .table-section {
   flex-basis: 35%;
+
 }
 
 .card {
@@ -184,6 +189,7 @@ tr:nth-child(even) {
 
 td {
   padding: 12px;
+  font-weight: 600;
 }
 
 .id, .date, .name, .route, .markerType, .distance, .fare {
@@ -279,6 +285,7 @@ input[type="checkbox"] {
 input[type="checkbox"]:checked ~ .card {
   max-height: 1000px; /* Set a large max-height value */
   transition: max-height 0.35s ease-in;
+  width: max-content;
 }
 
 /* newwwww */

@@ -4,38 +4,123 @@ var URL = "http://localhost:8080/";
 document.addEventListener("DOMContentLoaded", function () {
   fetch(URL)
     .then((response) => response.json())
-    .then((data) => initMap(data["data"]));
+    .then((data) => {
+      initMap(data.data);
+      updateTable(data.tableData);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 });
 
-//*       DATABASE CODE       *//
 var onRecordAdd = document.getElementById("recordAdd");
-onRecordAdd.addEventListener("click", displaydetails, emptyFeilds);
+onRecordAdd.addEventListener("click", handleRecordAdd);
 
-function emptyFeilds(){
+function handleRecordAdd() {
+  displaydetails();
+  updateTable();
+  emptyForm();
+}
+
+function updateTable() {
+  fetch(URL)
+    .then((response) => response.json())
+    .then((data) => {
+      var tableData = data.tableData;
+      var tableBody = document.querySelector("#table-wrapper tbody");
   
+      // Clear existing table rows
+      tableBody.innerHTML = "";
+  
+      // Iterate over each object in tableData
+      tableData.forEach((object) => {
+        console.log(object);
+        // Create a new row element
+        var newRow = document.createElement("tr");
+  
+        // Extract object properties
+        var { ID, dateString, Name, Trip, MarkerType, Distance, TotalFare } = object;
+  
+        // Create table cells and set their values
+        var idCell = document.createElement("td");
+        idCell.textContent = ID;
+        newRow.appendChild(idCell);
+  
+        // Create the date cell and set its content to the local date string
+        var dateCell = document.createElement("td");
+        var dateObject = new Date(dateString);
+        dateCell.textContent = dateObject.toLocaleDateString();
+        newRow.appendChild(dateCell);
+  
+        var nameCell = document.createElement("td");
+        nameCell.textContent = Name;
+        newRow.appendChild(nameCell);
+  
+        var tripCell = document.createElement("td");
+        tripCell.textContent = Trip;
+        newRow.appendChild(tripCell);
+  
+        var markerTypeCell = document.createElement("td");
+        markerTypeCell.textContent = MarkerType;
+        newRow.appendChild(markerTypeCell);
+  
+        var distanceCell = document.createElement("td");
+        distanceCell.textContent = Distance;
+        newRow.appendChild(distanceCell);
+  
+        var fareCell = document.createElement("td");
+        fareCell.textContent = TotalFare;
+        newRow.appendChild(fareCell);
+  
+        // Append the new row to the table body
+        tableBody.appendChild(newRow);
+      });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 function displaydetails() {
   // Get all the checkbox inputs
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-let allCheckbox = ""; // Declare the variable outside the loop
+  let allCheckbox = ""; // Declare the variable outside the loop
 
-// Iterate over the checkboxes and concatenate the labels of checked checkboxes
-checkboxes.forEach((checkbox) => {
-  if (checkbox.checked) {
-    const label = checkbox.name;
-    allCheckbox += label + " "; // Concatenate the labels with a space
-  }
-});
+  // Iterate over the checkboxes and concatenate the labels of checked checkboxes
+  checkboxes.forEach((checkbox) => {
+    if (checkbox.checked) {
+      const label = checkbox.name;
+      allCheckbox += label + " "; // Concatenate the labels with a space
+    }
+  });
 
-  var name = document.getElementById('name').value
-  var date = document.getElementById('date').value
-  var displayRoute = document.getElementById('displayRoute').innerText
-  var distanceValue = document.getElementById('totalValueNew').innerText
-  var totalDistance = 5 * document.getElementById('totalValueNew').innerText
-  
-  addToDb(name, date, displayRoute,allCheckbox, distanceValue,totalDistance)
+  // getting form values
+  var name = document.getElementById("name").value;
+  var date = document.getElementById("date").value;
+
+  var displayRoute = document.getElementById("displayRoute").innerText;
+  var distanceValue = document.getElementById("totalValueNew").innerText;
+  var totalDistance = 5 * document.getElementById("totalValueNew").innerText;
+
+  addToDb(name, date, displayRoute, allCheckbox, distanceValue, totalDistance);
+
+  alert("Trip added successfully");
 }
+
+function emptyForm() {
+  var nameInput = document.getElementById("name");
+  var dateInput = document.getElementById("date");
+  var displayRoute = document.getElementById("displayRoute");
+  var distanceValue = document.getElementById("totalValueNew");
+  var totalDistance = document.getElementById("totalValueNew");
+
+  nameInput.value = "";
+  dateInput.value = "";
+  displayRoute.innerText = "";
+  distanceValue.innerText = "";
+  totalDistance.innerText = "";
+}
+
 function addToDb(Name, Date, Trip, MarkerType, Distance, TotalFare) {
   distanceLoc.length = 0;
   fetch(URL, {
@@ -47,9 +132,10 @@ function addToDb(Name, Date, Trip, MarkerType, Distance, TotalFare) {
       Trip: Trip,
       MarkerType: MarkerType,
       Distance: Distance,
-      TotalFare : TotalFare
+      TotalFare: TotalFare,
     }),
   }).then((response) => response.json());
+  
   // .then((data) => insertRowtoTable(data["data"]));
 }
 

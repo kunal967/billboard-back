@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NMC - Hordings Survey</title>
     <link rel="icon" href="nmc.jpg" type="image/icon type" />
-
     <link rel="stylesheet" href="./src/style.css" />
-    <link rel="stylesheet" href="scss/_transitions.scss" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
@@ -43,11 +41,11 @@
           <div class="data-wrapper">
             <div>
               <label for="name">Name: </label>
-              <input type="text" name="name" id="name" />
+              <input type="text" name="name" id="name" required/>
             </div>
             <div>
-              <label for="date">Date</label>
-              <input type="date" name="date" id="date" />
+              <label for="dateString">Date</label>
+              <input type="date" name="date" id="date" required/>
             </div>
             <div>
               <label> Marker Type: </label>
@@ -109,7 +107,7 @@
         <input type="checkbox" id="toggle-table" />
         <div class="card">
           <div class="table-card-body">
-            <table id="">
+            <table id="table-wrapper">
               <thead>
                 <tr>
                   <th>ID</th>
@@ -121,19 +119,20 @@
                   <th>Revenue</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr>
-                  <td class="id">1</td>
-                  <td class="date">2022-05-01</td>
-                  <td class="name">John Smith</td>
-                  <td class="route">San Francisco to Los Angeles</td>
-                  <td class="markerType">Start</td>
-                  <td class="distance">0</td>
-                  <td class="fare">$0.00</td>
-                </tr>
+              <tbody class="tbody">
+                <!-- <tr>
+                  <td id="table-id">1</td>
+                  <td id="table-date">2022-05-01</td>
+                  <td id="table-name">John Smith</td>
+                  <td id="table-route">San Francisco to Los Angeles</td>
+                  <td id="table-markerType">Start</td>
+                  <td id="table-distance">0</td>
+                  <td id="table-fare">$0.00</td>
+                </tr> -->
               </tbody>
             </table>
           </div>
+          
         </div>
         
        
