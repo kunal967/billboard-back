@@ -1,5 +1,5 @@
 // 1.data in json format
-var URL = "https://billboardbackend.onrender.com/";
+var URL = "http://localhost:8080/";
 
 document.addEventListener("DOMContentLoaded", function () {
   fetch(URL)
@@ -34,7 +34,7 @@ function updateTable() {
   
       // Iterate over each object in tableData
       tableData.forEach((object) => {
-        console.log(object);
+        
         // Create a new row element
         var newRow = document.createElement("tr");
   
@@ -96,13 +96,13 @@ function displaydetails() {
 
   // getting form values
   var name = document.getElementById("name").value;
-  var date = document.getElementById("date").value;
+  var dateString = document.getElementById("date").value;
 
   var displayRoute = document.getElementById("displayRoute").innerText;
   var distanceValue = document.getElementById("totalValueNew").innerText;
   var totalDistance = 5 * document.getElementById("totalValueNew").innerText;
 
-  addToDb(name, date, displayRoute, allCheckbox, distanceValue, totalDistance);
+  addToDb(name, dateString, displayRoute, allCheckbox, distanceValue, totalDistance);
 
   alert("Trip added successfully");
 }
@@ -121,14 +121,14 @@ function emptyForm() {
   totalDistance.innerText = "";
 }
 
-function addToDb(Name, Date, Trip, MarkerType, Distance, TotalFare) {
+function addToDb(Name, dateString, Trip, MarkerType, Distance, TotalFare) {
   distanceLoc.length = 0;
   fetch(URL, {
     headers: { "Content-type": "application/json" },
     method: "POST",
     body: JSON.stringify({
       Name: Name,
-      Date: Date,
+      dateString: dateString,
       Trip: Trip,
       MarkerType: MarkerType,
       Distance: Distance,
@@ -297,7 +297,6 @@ function initMap(data) {
         for (let i = 0; i < totalDistanceArr.length; i++) {
           totalDistance += totalDistanceArr[i];
         }
-        console.log(totalDistanceArr);
         if (totalDistanceArr.length > 0) {
           distance = 100 * calculateTotalDistance();
           distanceFixed = distance.toFixed(2);

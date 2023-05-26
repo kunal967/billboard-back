@@ -65,8 +65,16 @@
     background-color: #f0f0f0;
     border: 1px solid #ddd;
     border-radius: 4px;
-    overflow: auto;
+    
+    height: 460px;
     max-width: 600px;
+    overflow-y: scroll;
+  }
+  .table-card{
+    width: max-content;
+    max-width: 100%;
+    overflow: scroll;
+    height: 460px;
   }
   
   .details-card-body {
@@ -80,6 +88,12 @@
     overflow-y: scroll;
   }
 }
+.table-card{
+  width: max-content;
+  max-width: 100%;
+  overflow: scroll;
+  height: 460px;
+}
 
 /* Main styles */
 .details-exterior {
@@ -90,7 +104,7 @@
 }
 
 .details-section {
-  flex-basis: 60%;
+  flex-basis: 28%;
   
 }
 
@@ -103,7 +117,7 @@
 
 }
 
-.card {
+.details-card {
   border: 1px solid #ddd;
   margin-top: 20px;
   /* padding: 20px; */
@@ -279,6 +293,7 @@ input[type="checkbox"] {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
+  overflow: auto;
 }
 
 /* Show the card when the checkbox is checked */
@@ -292,7 +307,7 @@ input[type="checkbox"]:checked ~ .card {
 
 .details-exterior{
   display: flex;
-  justify-content: space-around;
+  justify-content:flex-start;
 }
 
 .table-section,
