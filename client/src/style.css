@@ -25,6 +25,15 @@
   margin: 0;
   padding: 0;
 }
+#marker-type-a-label{
+    color: #ef220b;
+  }
+  #marker-type-b-label{
+    color: rgb(23, 210, 23);
+  } 
+  #marker-type-c-label{
+    color: rgb(255, 255, 41);
+  }
 
 /* Responsive styles for different screen sizes */
 @media screen and (max-width: 768px) {
