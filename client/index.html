@@ -58,7 +58,7 @@
                     id="show-marker-type-a"
                       checked="checked"
                       />
-                      <label for="show-marker-type-a">Type A Markers</label>
+                      <label id="marker-type-a-label" for="show-marker-type-a">Type A Markers</label>
                     </div>
                   </div>
                   <div class="checkbox-wrapper">
@@ -70,7 +70,7 @@
                       id="show-marker-type-b"
                       checked="checked"
                       />
-                      <label for="show-marker-type-b">Type B Markers</label>
+                      <label id="marker-type-b-label" for="show-marker-type-b">Type B Markers</label>
                     </div>
                   </div>
                   <div class="checkbox-wrapper">
@@ -82,7 +82,7 @@
                       id="show-marker-type-c"
                       checked="checked"
                       />
-                      <label for="show-marker-type-c">Type C Markers</label>
+                      <label id="marker-type-c-label" for="show-marker-type-c">Type C Markers</label>
                     </div>
                   </div>
                 </div>
@@ -109,7 +109,7 @@
             <table id="table-wrapper">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <!-- <th>ID</th> -->
                   <th>Date</th>
                   <th>Name</th>
                   <th>Trip</th>
@@ -133,103 +133,6 @@
         <div class="" id="map"></div>
       </div>
     </div>
-    <!-- table -->
-
-    <!-- <table border="2">
-            <tr>
-              <td id="td">
-                <label>
-                  Rate per Unit:
-                  <input
-                    type="number"
-                    name="rate"
-                    id="rate"
-                    required
-                  />
-                  <br />
-                  <br />
-                  <button class="btn btn-outline-primary" onclick="storeValue()">Set Rate</button>
-                  <button class="btn btn-outline-danger" onclick="window.location.href=window.location.href">Reset</button>
-                  <br />
-                  <br />
-                </label>
-
-                <table class="DistBetPts, table" id="DistBetPts" border="1">
-                  <thead id="tableHead">
-                    <tr>
-                      <th>Segments</th>
-                      <th>Distance</th>
-                    </tr>
-                  </thead>
-                  <tbody id="tableBody">
-                    <td></td>
-                    <td></td>
-                  </tbody>
-                  <tfoot id="tfooter">
-                    <tr>
-                      <td>Total</td>
-                      <td id="totalvalue"></td>
-                    </tr>
-                    <tr>
-                      <td>Amount</td>
-                      <td id="amt"></td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </td>
-            </tr>
-          </table> -->
-    <!--The div element for the map-->
-
-    <!-- checkboxes -->
-
-    <!-- <div class="InputDetails">
-      <div class="inputs">
-        <form id="inputs">
-          <label>
-            File No:
-            <input
-              type="text"
-              name="name"
-              id="name"
-              required
-              max-width="10px"
-            /><br />
-          </label>
-          <label>
-            Date:
-            <input type="date" name="date" id="date" required /><br />
-          </label>
-          <label>
-            Marker Type:
-            <select id="marker_type" required>
-              <option value="default">--select a Marker type--</option>
-              <option value="Type-A">Type-A</option>
-              <option value="Type-B">Type-B</option>
-              <option value="Type-C">Type-C</option></select
-            ><br />
-          </label>
-          <input type="button" id="start" value="Starting Point " border="1" />
-          <input type="button" id="stop" value="Ending Point " border="1" />
-          <br />
-          <input type="button" id="add" value="Add" border="1" />
-        </form>
-      </div>
-      <div class="table2">
-        <table class="contents" id="contents" border="1">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>File No</th>
-              <th>Marker Sequence</th>
-              <th>Marker Type</th>
-              <th>Total Distance in Mtr</th>
-            </tr>
-          </thead>
-        </table>
-      </div>
-    </div> -->
-
    
 
     <script src="./src/script.js"></script>
