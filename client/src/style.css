@@ -60,6 +60,15 @@
   .marker-type-a, .marker-type-b, .marker-type-c {
     margin-right: 5px;
   }
+  #marker-type-a-label{
+    color: #ef220b;
+  }
+  #marker-type-b-label{
+    color: rgb(23, 210, 23);
+  } 
+  #marker-type-c-label{
+    color: rgb(255, 255, 41);
+  }
   .card {
     margin: 20px;
     background-color: #f0f0f0;
@@ -270,7 +279,7 @@ td {
 }
 .form-check label {
   font-size: 14px;
-  font-weight: normal;
+  font-weight: 800;
 }
 
 /* Map container */
